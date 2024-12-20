@@ -4,11 +4,11 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 py-24 relative z-10">
         <div className="max-w-3xl">
           <h2 className="text-5xl font-bold mb-6">
-            Entdecken. Analysieren. Investieren.
+            Etdecken. Analysieren. Investieren.
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Ihre umfassende Plattform zur Erkundung, Analyse und Verständnis von
-            Finanzinstrumenten auf globalen Märkten. Von ETFs bis zu
+            EIhre umfassende Plattform zur Erkundung, Analyse und Verständnis
+            von Finanzinstrumenten auf globalen Märkten. Von ETFs bis zu
             Investmentfonds – wir bieten tiefgreifende Einblicke, um Ihre
             Anlageentscheidungen zu unterstützen.
           </p>

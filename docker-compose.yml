@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./Backend
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI="mongodb+srv://azmyfahd66:t9bSCkCfnxg12L2q@cluster0.nm58o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    volumes:
+      - ./Backend:/app
+
+  frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./Frontend:/app
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

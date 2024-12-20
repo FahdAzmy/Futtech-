@@ -11,9 +11,8 @@ const connecToDB = require("./db/connectToDB");
 //cors
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
   })
 );
 app.use(express.json());
