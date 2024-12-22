@@ -75,7 +75,7 @@ export default function PriceChart({ candles }) {
     [candles, priceChange]
   );
   return (
-    <div className="md:col-span-2 bg-white rounded-2xl shadow-xl p-6">
+    <div className="md:col-span-2 max-lg:w-full bg-white rounded-2xl shadow-xl p-6">
       {candles.length > 1 ? (
         <Line
           data={chartData}

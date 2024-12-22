@@ -1,15 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-import AdditionalDetails from "../components/AdditionalDetails";
-import InsurmentInformation from "../components/InsurmentInformation";
-import HeaderOfInsurment from "../components/HeaderOfInsurment";
+import AdditionalDetails from "../components/DetailsPage/AdditionalDetails";
+import InsurmentInformation from "../components/DetailsPage/InsurmentInformation";
+import HeaderOfInsurment from "../components/DetailsPage/HeaderOfInsurment";
 import useGetInstrument from "../Hooks/useGetInsurment";
-import PriceChart from "../components/PriceChart";
+import PriceChart from "../components/DetailsPage/PriceChart";
 
 const DetailsPage = () => {
-  const navigate = useNavigate();
   const [candles, setCandles] = useState([]);
   const { instrument, loading } = useGetInstrument();
   useEffect(() => {
@@ -33,35 +31,17 @@ const DetailsPage = () => {
     );
   }
 
-  if (!instrument) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex justify-center items-center">
-        <div className="bg-white p-10 rounded-2xl shadow-2xl text-center">
-          <h2 className="text-3xl font-bold text-red-600 mb-6">
-            Instrument nicht gefunden
-          </h2>
-          <button
-            onClick={() => navigate(-1)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg"
-          >
-            Zurück
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Header Section */}
         <HeaderOfInsurment instrument={instrument} candles={candles} />
         {/* Content Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-1 gap-5">
           {/* Instrument Information */}
+          <PriceChart candles={candles} />
           <InsurmentInformation instrument={instrument} />
           {/* Price Chart */}
-          <PriceChart candles={candles} />
         </div>
         {/* Additional Details */}
         <AdditionalDetails instrument={instrument} />

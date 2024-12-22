@@ -1,11 +1,16 @@
 import { Filter, Search } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useInstrumentsContext } from "../../Contexts/AllInsurmentsContext";
 
 // eslint-disable-next-line react/prop-types
-export default function SearchInputAndFilter({ instrumentsData }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedType, setSelectedType] = useState(""); // Default: Show all types
-  // Extract unique instrument types
+export default function SearchInputAndFilter() {
+  const {
+    searchTerm,
+    setSearchTerm,
+    setSelectedType,
+    selectedType,
+    instrumentsData,
+  } = useInstrumentsContext();
   const instrumentTypes = useMemo(() => {
     if (!Array.isArray(instrumentsData)) return [];
     return [

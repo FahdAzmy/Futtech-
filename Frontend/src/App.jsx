@@ -1,7 +1,7 @@
-import HeroSection from "./components/HeroSection";
+import HeroSection from "./components/Home/HeroSection";
 import "./index.css";
 import FinancialPlatformDashboard from "./Pages/FinancialPlatformDashboard";
-import Header from "./components/Header";
+import Header from "./components/Home/Header";
 
 function App() {
   return (

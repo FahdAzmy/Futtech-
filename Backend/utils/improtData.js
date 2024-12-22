@@ -8,41 +8,41 @@ const connectDB = require("../db/connectToDB");
 
 const importData = async () => {
   try {
-    // Connect to database
+    // Connect to the database
     await connectDB();
 
-    // Define file paths
+    // Define paths for the metadata, exchange, and candle JSON files
     const metadataPath = path.join(__dirname, "../data/metadata.json");
     const exchangePath = path.join(__dirname, "../data/exchange.json");
     const candlePath = path.join(__dirname, "../data/candle.json");
 
-    // Read metadata
+    // Read and parse metadata from the JSON file
     const metadata = JSON.parse(
       fs.readFileSync(metadataPath, "utf-8")
     ).hits.hits.map((hit) => hit._source);
 
-    // Read exchanges
+    // Read and parse exchange data from the JSON file
     const exchanges = JSON.parse(
       fs.readFileSync(exchangePath, "utf-8")
     ).hits.hits.map((hit) => hit._source);
 
-    // Read candles
+    // Read and parse candle data from the JSON file
     const candles = JSON.parse(
       fs.readFileSync(candlePath, "utf-8")
     ).hits.hits.map((hit) => hit._source);
 
-    // Insert metadata
+    // Insert metadata into the database, with a fallback for missing symbols
     const metadataDocs = await MetadataModel.insertMany(
       metadata.map((meta) => ({
         ...meta,
-        symbol: meta.symbol || generateUniqueSymbol(), // Fallback if no symbol
+        symbol: meta.symbol || generateUniqueSymbol(), // Fallback if no symbol is provided
       }))
     );
     console.log("Metadata imported successfully!");
 
-    // Create instruments with associated metadata
+    // Create instruments and link them to associated metadata
     const instruments = exchanges.map((exchange) => {
-      // Find matching metadata
+      // Find matching metadata for each exchange
       const meta = metadata.find(
         (item) =>
           item.symbol === exchange.symbol ||
@@ -59,6 +59,7 @@ const importData = async () => {
           )
         : null;
 
+      // Return an object representing the instrument
       return {
         symbol: exchange.symbol,
         type: exchange.type || meta?.type || "",
@@ -78,29 +79,31 @@ const importData = async () => {
         segmentExchange: exchange.segmentExchange || "",
         segmentNameExchange: exchange.segmentNameExchange || "",
         metadata: metadataDoc ? metadataDoc._id : null,
-        candles: [], // Initialize empty array for candle references
+        candles: [], // Initialize an empty array for candle references
       };
     });
 
-    // Remove duplicate instruments
+    // Remove duplicate instruments based on their symbol
     const uniqueInstruments = instruments.filter(
       (instrument, index, self) =>
         index === self.findIndex((i) => i.symbol === instrument.symbol)
     );
 
-    // Insert instruments into DB
+    // Insert unique instruments into the database
     const instrumentDocs = await InstrumentsModel.insertMany(uniqueInstruments);
     console.log("Instruments imported successfully!");
 
-    // Insert candles and link them to instruments
+    // Insert candles into the database and link them to the appropriate instruments
     const candleDocs = [];
+    const instrumentMap = new Map(); // A map to collect candles for each instrument
+
     for (const candle of candles) {
       const instrument = instrumentDocs.find(
         (inst) => inst.symbol === candle.symbol
       );
 
       if (instrument) {
-        // Create candle document
+        // Create a new candle document
         const newCandle = await CandleModel.create({
           symbol: candle.symbol,
           dateTime: new Date(candle.dateTime),
@@ -117,17 +120,46 @@ const importData = async () => {
         // Link the candle to the corresponding instrument
         instrument.candles.push(newCandle._id);
         candleDocs.push(newCandle);
+
+        // Collect candles in the instrumentMap
+        if (!instrumentMap.has(instrument.symbol)) {
+          instrumentMap.set(instrument.symbol, []);
+        }
+        instrumentMap.get(instrument.symbol).push(newCandle);
       }
     }
 
-    // Save updated instruments with candles references
+    // Save the updated instruments, now with references to their linked candles
     for (const instrument of instrumentDocs) {
-      await instrument.save();
-    }
+      const candlesForInstrument = instrument.candles || [];
 
+      if (candlesForInstrument.length >= 2) {
+        // Fetch the last two candles for the instrument
+        const sortedCandles = await CandleModel.find({
+          _id: { $in: candlesForInstrument.slice(-2) },
+        }).sort({ dateTime: -1 });
+
+        if (sortedCandles.length === 2) {
+          const [latestCandle, previousCandle] = sortedCandles;
+
+          // Calculate the current price, price change, and percentage change
+          const price = latestCandle.endPrice;
+          const change = latestCandle.endPrice - previousCandle.endPrice;
+          const percentage = (change / previousCandle.endPrice) * 100;
+
+          // Update the instrument with the calculated values
+          instrument.currentPrice = price;
+          instrument.priceChange = change;
+          instrument.percentageChange = percentage;
+
+          // Save the instrument to the database
+          await instrument.save();
+        }
+      }
+    }
     console.log("Candles imported and linked successfully!");
 
-    // Close database connection
+    // Close the database connection
     mongoose.connection.close();
     console.log("Data imported and database connection closed.");
   } catch (error) {
@@ -136,10 +168,10 @@ const importData = async () => {
   }
 };
 
-// Utility function to generate a fallback symbol
+// Utility function to generate a fallback symbol in case one is not provided
 function generateUniqueSymbol() {
   return `SYM${Math.floor(Math.random() * 10000)}`;
 }
 
-// Run import process
+// Run the data import process
 importData();

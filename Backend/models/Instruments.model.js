@@ -30,6 +30,9 @@ const instrumentSchema = new mongoose.Schema({
       require: false,
     },
   ],
+  currentPrice: { type: Number, default: null },
+  priceChange: { type: Number, default: null },
+  percentageChange: { type: Number, default: null },
 });
 
 module.exports = mongoose.model("Instrument", instrumentSchema);
