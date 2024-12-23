@@ -6,7 +6,7 @@ export default function AdditionalDetails({ instrument }) {
   return (
     <div>
       {instrument.metadata && (
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white rounded-2xl max-md:w-full shadow-xl p-8">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
             <Activity className="mr-2 text-green-600" /> Zusätzliche Details
           </h2>
