@@ -22,14 +22,14 @@ jobs:
       # 3. بناء الصورة
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/financial-website-backend:latest ./Backend
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/financial-website-frontend:latest ./Frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/financialwebsite-backend:latest ./Backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/financialwebsite-frontend:latest ./Frontend
 
       # 4. رفع الصور إلى Docker Hub
       - name: Push Docker images
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/financial-website-backend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/financial-website-frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/financialwebsite-backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/financialwebsite-frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
