@@ -1,8 +1,7 @@
 version: "3.8"
 services:
   backend:
-    build:
-      context: ./Backend
+    image: fahdazmy/financialwebsite-backend:latest
     ports:
       - "4000:4000"
     depends_on:
@@ -13,8 +12,7 @@ services:
       - ./Backend:/app
 
   frontend:
-    build:
-      context: ./Frontend
+    image: fahdazmy/financialwebsite-frontend:latest
     ports:
       - "3000:80"
     volumes:
