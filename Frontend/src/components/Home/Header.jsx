@@ -10,17 +10,6 @@ const Navbar = () => {
             Financial Horizon
           </h1>
         </div>
-        <div className="space-x-4">
-          <a href="#" className="text-gray-600 font-bold hover:text-blue-600">
-            Home
-          </a>
-          <a href="#" className="text-gray-600 font-bold hover:text-blue-600">
-            Markets
-          </a>
-          <a href="#" className="text-gray-600 font-bold hover:text-blue-600">
-            About
-          </a>
-        </div>
       </div>
     </nav>
   );
