@@ -14,7 +14,9 @@ jobs:
       # 1. قم بعمل Checkout للكود
       - name: Checkout code
         uses: actions/checkout@v3
-         - name: Setup Node.js
+
+      # 2. إعداد Node.js لتشغيل الاختبارات
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18 # تأكد من أن النسخة متوافقة مع مشروعك
@@ -24,20 +26,22 @@ jobs:
         working-directory: ./Frontend
         run: npm install
 
-        name: Run Frontend Tests
+      # 4. تشغيل اختبارات Frontend
+      - name: Run Frontend Tests
         working-directory: ./Frontend
         run: npm test
-      # 2. تسجيل الدخول إلى Docker Hub
+
+      # 5. تسجيل الدخول إلى Docker Hub
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 3. بناء الصورة
+      # 6. بناء الصور
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/financialwebsite-backend:latest ./Backend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/financialwebsite-frontend:latest ./Frontend
 
-      # 4. رفع الصور إلى Docker Hub
+      # 7. رفع الصور إلى Docker Hub
       - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/financialwebsite-backend:latest
@@ -51,3 +55,5 @@ jobs:
       - name: Deploy application
         run: |
           echo "Here you can add deployment steps, like restarting Docker containers"
+          # مثال: استخدام SSH لإعادة تشغيل الخدمة على السيرفر
+          # ssh user@server 'docker-compose -f /path/to/docker-compose.yml up -d'
