@@ -9,7 +9,7 @@ const Candle = require("../models/Candle.Model");
  * @access Public
  */
 exports.getFinancialInstruments = asyncHandler(async (req, res) => {
-  const instruments = await Instruments.find().populate("");
+  const instruments = await Instruments.find().select("-candles -metadata");
   res.status(200).json(instruments);
 });
 /**

@@ -17,17 +17,15 @@ const InstrumentCard = ({ instrument, onDetails }) => {
             <div className="flex items-center gap-2">
               <Globe className="text-gray-400" size={18} />
               <h2 className="text-base font-semibold text-gray-900 truncate">
-                {instrument?.name || "N/A"} {/* Fallback for missing name */}
+                {instrument?.name || "N/A"}
               </h2>
             </div>
             <div className="mt-1 text-xs font-medium text-gray-500 flex items-center gap-2">
               <span className="bg-gray-100 px-2 py-0.5 rounded">
-                {instrument?.symbol || "N/A"}{" "}
-                {/* Fallback for missing symbol */}
+                {instrument?.symbol || "N/A"}
               </span>
               <span className="text-gray-400">•</span>
-              <span>{instrument?.nameExchange || "N/A"}</span>{" "}
-              {/* Fallback for missing exchange name */}
+              <span>{instrument?.nameExchange || "N/A"}</span>
             </div>
           </div>
         </div>
@@ -61,8 +59,7 @@ const InstrumentCard = ({ instrument, onDetails }) => {
                 {isPositiveChange ? "+" : ""}
                 {instrument?.priceChange
                   ? instrument.priceChange.toFixed(2)
-                  : "0.00"}{" "}
-                {/* Fallback for missing priceChange */}
+                  : "0.00"}
               </span>
               <span className="text-sm font-semibold">
                 ({isPositiveChange ? "+" : ""}
@@ -81,28 +78,25 @@ const InstrumentCard = ({ instrument, onDetails }) => {
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Typ</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument?.type || "N/A"} {/* Fallback for missing type */}
+              {instrument?.type || "N/A"}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Land</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument?.country || "N/A"}{" "}
-              {/* Fallback for missing country */}
+              {instrument?.country || "N/A"}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Börse</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument?.operatingMIC || "N/A"}{" "}
-              {/* Fallback for missing operatingMIC */}
+              {instrument?.operatingMIC || "N/A"}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Währung</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument?.currency || "N/A"}{" "}
-              {/* Fallback for missing currency */}
+              {instrument?.currency || "N/A"}
             </div>
           </div>
         </div>

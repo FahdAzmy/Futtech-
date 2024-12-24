@@ -2,9 +2,11 @@ import { useMemo } from "react";
 import InstrumentCard from "./InstrumentCard";
 import { useNavigate } from "react-router-dom";
 import { useInstrumentsContext } from "../../Contexts/AllInsurmentsContext";
+import CardSkelaton from "./CardSkelaton";
 
 export default function InsurmentsFilter() {
-  const { instrumentsData, searchTerm, selectedType } = useInstrumentsContext();
+  const { instrumentsData, searchTerm, selectedType, loading } =
+    useInstrumentsContext();
   const navigate = useNavigate();
 
   // Memoized filtered instruments with search and type filtering
@@ -31,6 +33,10 @@ export default function InsurmentsFilter() {
     });
   }, [searchTerm, selectedType, instrumentsData]);
 
+  if (loading) {
+    <CardSkelaton />;
+  }
+
   return (
     <div>
       {filteredInstruments.length > 0 ? (
@@ -48,14 +54,10 @@ export default function InsurmentsFilter() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <h3 className="text-2xl font-semibold text-gray-700 mb-4">
-            Keine Instrumente gefunden
-          </h3>
-          <p className="text-gray-500">
-            Bitte passen Sie Ihre Suchkriterien an oder erweitern Sie Ihre
-            Suche.
-          </p>
+        <div className="flex gap-2">
+          <CardSkelaton />
+          <CardSkelaton />
+          <CardSkelaton />
         </div>
       )}
     </div>

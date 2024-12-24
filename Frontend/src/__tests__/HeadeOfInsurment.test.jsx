@@ -1,8 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
 import { BrowserRouter } from "react-router-dom"; // Import BrowserRouter
 import HeaderOfInsurment from "../components/DetailsPage/HeaderOfInsurment";
-import { test, expect, describe, it } from "vitest";
+import { expect, describe, it } from "vitest";
 import React from "react";
 describe("HeaderOfInsurment", () => {
   const mockInstrument = {

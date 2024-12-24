@@ -2,7 +2,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import AdditionalDetails from "../components/DetailsPage/AdditionalDetails";
-import { test, expect, describe, it } from "vitest";
+import { expect, describe, it } from "vitest";
 
 describe("AdditionalDetails", () => {
   const mockInstrument = {

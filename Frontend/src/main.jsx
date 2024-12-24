@@ -5,7 +5,6 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./Pages/ErrorPage.jsx";
 import InstrumentPage from "./Pages/InstrumentPage.jsx";
-import { InstrumentsProvider } from "./Contexts/AllInsurmentsContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,8 +18,6 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <InstrumentsProvider>
-      <RouterProvider router={router} />
-    </InstrumentsProvider>
+    <RouterProvider router={router} />
   </StrictMode>
 );
