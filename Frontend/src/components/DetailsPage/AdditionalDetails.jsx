@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Activity, TrendingUp } from "lucide-react";
 import DetailItem from "./DetailItem";
-
+import React from "react";
 export default function AdditionalDetails({ instrument }) {
   return (
     <div>

@@ -7,6 +7,10 @@ export default defineConfig({
   server: {
     prot: 3000,
   },
+  test: {
+    environment: "jsdom", // أو استخدام البيئة المناسبة
+    globals: true, // إذا كنت تحتاج إلى استخدام globals
+  },
   build: {
     outDir: "dist",
   },

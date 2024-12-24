@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import React from "react";
 export default function HeaderOfInsurment({ instrument }) {
   const navigate = useNavigate();
 

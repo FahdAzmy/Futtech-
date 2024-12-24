@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Globe, TrendingUp, TrendingDown, Clock, Activity } from "lucide-react";
+import React from "react";
 
 const InstrumentCard = ({ instrument, onDetails }) => {
-  const isPositiveChange = instrument.percentageChange >= 0;
+  const isPositiveChange = instrument?.percentageChange >= 0;
 
   return (
     <div
-      key={instrument._id}
+      key={instrument?._id}
       className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 w-full max-w-lg mx-auto border border-gray-200 h-auto overflow-hidden"
     >
       <div className="p-6">
@@ -16,15 +17,17 @@ const InstrumentCard = ({ instrument, onDetails }) => {
             <div className="flex items-center gap-2">
               <Globe className="text-gray-400" size={18} />
               <h2 className="text-base font-semibold text-gray-900 truncate">
-                {instrument.name}
+                {instrument?.name || "N/A"} {/* Fallback for missing name */}
               </h2>
             </div>
             <div className="mt-1 text-xs font-medium text-gray-500 flex items-center gap-2">
               <span className="bg-gray-100 px-2 py-0.5 rounded">
-                {instrument.symbol}
+                {instrument?.symbol || "N/A"}{" "}
+                {/* Fallback for missing symbol */}
               </span>
               <span className="text-gray-400">•</span>
-              <span>{instrument.nameExchange}</span>
+              <span>{instrument?.nameExchange || "N/A"}</span>{" "}
+              {/* Fallback for missing exchange name */}
             </div>
           </div>
         </div>
@@ -32,10 +35,16 @@ const InstrumentCard = ({ instrument, onDetails }) => {
         {/* Price Section */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <div className="text-2xl font-bold text-gray-900">
-              {instrument.currentPrice.toFixed(3)}
-              <span className="text-sm ml-1 text-gray-500">
-                {instrument.currency}
+            <div
+              className="text-2xl font-bold text-gray-900"
+              data-testid="price-container"
+            >
+              {instrument?.currentPrice?.toFixed(3)}
+              <span
+                className="text-sm ml-1 text-gray-500"
+                data-testid="currency"
+              >
+                {instrument?.currency || "N/A"}
               </span>
             </div>
             <div
@@ -50,11 +59,17 @@ const InstrumentCard = ({ instrument, onDetails }) => {
               )}
               <span className="text-sm font-semibold">
                 {isPositiveChange ? "+" : ""}
-                {instrument.priceChange.toFixed(2)}
+                {instrument?.priceChange
+                  ? instrument.priceChange.toFixed(2)
+                  : "0.00"}{" "}
+                {/* Fallback for missing priceChange */}
               </span>
               <span className="text-sm font-semibold">
                 ({isPositiveChange ? "+" : ""}
-                {instrument.percentageChange.toFixed(2)}%)
+                {instrument?.percentageChange
+                  ? instrument.percentageChange.toFixed(2)
+                  : "0.00"}
+                %)
               </span>
             </div>
           </div>
@@ -66,25 +81,28 @@ const InstrumentCard = ({ instrument, onDetails }) => {
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Typ</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument.type}
+              {instrument?.type || "N/A"} {/* Fallback for missing type */}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Land</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument.country}
+              {instrument?.country || "N/A"}{" "}
+              {/* Fallback for missing country */}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Börse</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument.operatingMIC}
+              {instrument?.operatingMIC || "N/A"}{" "}
+              {/* Fallback for missing operatingMIC */}
             </div>
           </div>
           <div className="bg-gray-50 p-3 rounded">
             <div className="text-xs text-gray-500 mb-1">Währung</div>
             <div className="text-sm font-medium text-gray-900 truncate">
-              {instrument.currency}
+              {instrument?.currency || "N/A"}{" "}
+              {/* Fallback for missing currency */}
             </div>
           </div>
         </div>

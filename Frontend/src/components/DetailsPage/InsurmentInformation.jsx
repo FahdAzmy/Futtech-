@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Info } from "lucide-react";
 import DetailItem from "./DetailItem";
-
+import React from "react";
 export default function InsurmentInformation({ instrument }) {
   const getCountryCode = (countryName) => {
     const countryCodeMap = {
