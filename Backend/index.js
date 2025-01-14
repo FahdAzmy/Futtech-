@@ -11,7 +11,7 @@ const connecToDB = require("./db/connectToDB");
 //cors
 app.use(
   cors({
-    origin: "https://futtech-lvmfsqjxr-fahd-azmys-projects.vercel.app/",
+    origin: process.env.CORS_ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
